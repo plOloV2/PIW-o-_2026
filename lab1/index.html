@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planszowa Kryjówka - Sklep</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="logo">🎲 Planszowa Kryjówka</div>
+        <div class="header-actions">
+            <button class="btn">Zaloguj / Wyloguj</button>
+            <button class="btn btn-primary">Koszyk (0)</button>
+        </div>
+    </header>
+
+    <main class="container">
+        <aside class="sidebar">
+            <section class="filters-section">
+                <h3>Filtrowanie</h3>
+                <form action="#" class="filter-form">
+                    <input type="text" placeholder="Szukaj słowa w opisie...">
+                    <input type="number" placeholder="Cena maks. (PLN)">
+                    <select>
+                        <option value="">Wybierz rodzaj...</option>
+                        <option value="strategiczna">Strategiczna</option>
+                        <option value="rodzinna">Rodzinna</option>
+                        <option value="imprezowa">Imprezowa</option>
+                    </select>
+                    <input type="number" placeholder="Ilość graczy">
+                    <input type="text" placeholder="Wydawnictwo">
+                    <input type="number" placeholder="Czas gry (min)">
+                    <button type="submit" class="btn">Szukaj</button>
+                </form>
+            </section>
+
+            <section class="add-item-section">
+                <h3>Dodaj nową pozycję</h3>
+                <form action="#" class="add-form">
+                    <input type="text" placeholder="Nazwa gry" required>
+                    <input type="number" placeholder="Cena" required>
+                    <button type="submit" class="btn btn-secondary">Dodaj do bazy</button>
+                </form>
+            </section>
+        </aside>
+
+        <section class="content">
+            <h2>Wyniki wyszukiwania</h2>
+            <div class="products-grid">
+                
+                <article class="product-card">
+                    <div class="product-img">
+                        <img src="EuroBusiness.jpg" alt="Eurobusiness" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+                    </div>
+                    <h3>EUROBUSSINES</h3>
+                    <p class="price">180 PLN</p>
+                    <p class="desc">2-5 graczy | 30-120 min | Labo</p>
+                    <a href="index2.html" class="btn">Szczegóły gry</a>
+                </article>
+
+                <article class="product-card">
+                    <div class="product-img">
+                        <img src="Small-World.webp" alt="Small World" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+                    </div>
+                    <h3>Small World</h3>
+                    <p class="price">150 PLN</p>
+                    <p class="desc">2-5 graczy | 60-90 min | Rebel</p>
+                    <a href="index2.html" class="btn">Szczegóły gry</a>
+                </article>
+
+                <article class="product-card">
+                    <div class="product-img">
+                        <img src="7-Cudow-Swiata.jpg" alt="7 Cudów Świata" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+                    </div>
+                    <h3>7 Cudów Świata</h3>
+                    <p class="price">65 PLN</p>
+                    <p class="desc">2-7 graczy | 40 - 60min | Rebel</p>
+                    <a href="index2.html" class="btn">Szczegóły gry</a>
+                </article>
+
+            </div>
+        </section>
+    </main>
+</body>
+</html>
