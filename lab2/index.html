@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab2 - ToDo Lista</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Moja ToDo Lista</h1>
+
+        <div class="panel section">
+            <h3>Wyszukiwarka</h3>
+            <input type="text" id="searchInput" placeholder="Szukaj zadań...">
+            <label class="checkbox-label">
+                <input type="checkbox" id="caseInsensitive" checked>
+                Case-insensitive (ignoruj wielkość liter)
+            </label>
+        </div>
+
+        <div class="panel section">
+            <h3>Nowe zadanie</h3>
+            <div class="input-group">
+                <input type="text" id="newTaskText" placeholder="Wpisz treść zadania...">
+                <select id="listSelect"></select>
+                <button id="addTaskBtn" class="btn btn-primary">Dodaj zadanie</button>
+            </div>
+            
+            <h3 class="mt-2">Nowa lista (kategoria)</h3>
+            <div class="input-group">
+                <input type="text" id="newListText" placeholder="Nazwa nowej listy...">
+                <button id="addListBtn" class="btn btn-secondary">Dodaj listę</button>
+            </div>
+        </div>
+
+        <div class="panel section">
+            <button id="undoBtn" class="btn btn-warning" disabled>Cofnij usunięcie (Ctrl+Z)</button>
+        </div>
+
+        <div id="listsContainer"></div>
+    </div>
+
+    <div id="deleteModal" class="modal hidden">
+        <div class="modal-content">
+            <p id="modalText"></p>
+            <div class="modal-actions">
+                <button id="confirmDeleteBtn" class="btn btn-danger">Tak, usuń</button>
+                <button id="cancelDeleteBtn" class="btn btn-secondary">Anuluj</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
