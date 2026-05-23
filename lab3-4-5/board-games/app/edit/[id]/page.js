@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useGames } from "../../GamesContext";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
@@ -10,13 +10,14 @@ export default function EditGame() {
   const params = useParams();
   const router = useRouter();
 
+  const descriptionRef = useRef(null);
+
   const [formData, setFormData] = useState({
     id: null,
     title: "",
     publisher: "",
     type: "",
     price_pln: "",
-    description: "",
   });
 
   useEffect(() => {
@@ -30,10 +31,13 @@ export default function EditGame() {
           publisher: gameToEdit.publisher,
           type: gameToEdit.type,
           price_pln: gameToEdit.price_pln,
-          description: Array.isArray(gameToEdit.description) 
-            ? gameToEdit.description.join("\n") 
-            : gameToEdit.description,
         });
+
+        if (descriptionRef.current) {
+          descriptionRef.current.value = Array.isArray(gameToEdit.description) 
+            ? gameToEdit.description.join("\n") 
+            : gameToEdit.description || "";
+        }
       }
     }
   }, [games, loading, params.id]);
@@ -50,7 +54,7 @@ export default function EditGame() {
       ...games.find(g => g.id.toString() === params.id),
       ...formData,
       price_pln: parseFloat(formData.price_pln),
-      description: formData.description.split("\n"),
+      description: descriptionRef.current.value.split("\n"), 
     };
 
     editGame(updatedGame);
@@ -116,11 +120,9 @@ export default function EditGame() {
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Opis (każda linia to nowy punkt)</label>
           <textarea
-            name="description"
+            ref={descriptionRef}
             rows="5"
             className="w-full p-2 border border-gray-300 rounded text-black"
-            value={formData.description}
-            onChange={handleChange}
           ></textarea>
         </div>
 

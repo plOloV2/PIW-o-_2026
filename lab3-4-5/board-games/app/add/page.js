@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useGames } from "../GamesContext";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -9,12 +9,13 @@ export default function AddGame() {
   const { addGame } = useGames();
   const router = useRouter();
 
+  const descriptionRef = useRef(null);
+
   const [formData, setFormData] = useState({
     title: "",
     publisher: "",
     type: "strategiczna",
     price_pln: "",
-    description: "",
   });
 
   const handleChange = (e) => {
@@ -31,7 +32,7 @@ export default function AddGame() {
     const newGame = {
       ...formData,
       price_pln: parseFloat(formData.price_pln),
-      description: [formData.description],
+      description: [descriptionRef.current.value],
       images: [],
       min_players: 1,
       max_players: 4,
@@ -109,9 +110,8 @@ export default function AddGame() {
           <textarea
             name="description"
             rows="3"
-            className="w-full p-2 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500 text-black"
-            value={formData.description}
-            onChange={handleChange}
+            ref={descriptionRef}
+            className="w-full p-2 border border-gray-300 rounded text-black"
           ></textarea>
         </div>
 

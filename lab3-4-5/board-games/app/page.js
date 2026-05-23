@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
+import { useFavorites } from "./FavoritesContext";
 import { useGames } from "./GamesContext";
 import { useAuth } from "./AuthContext";
 import Link from "next/link";
@@ -8,17 +9,21 @@ import Link from "next/link";
 export default function Home() {
   const { games, loading, deleteGame, buyGame } = useGames();
   const { user } = useAuth();
+  const { favorites, toggleFavorite } = useFavorites();
+
   const [search, setSearch] = useState("");
   const [maxPrice, setMaxPrice] = useState(1000);
 
-  if (loading) return <div className="text-center p-10 text-white font-bold text-xl">Ładowanie gier z chmury...</div>;
+  const filteredGames = useMemo(() => {
+    return games.filter((game) => {
+      const title = game.title || ""; 
+      const matchesSearch = title.toLowerCase().includes(search.toLowerCase());
+      const matchesPrice = game.price_pln <= maxPrice; 
+      return matchesSearch && matchesPrice;
+    });
+  }, [games, search, maxPrice]);
 
-  const filteredGames = games.filter((game) => {
-    const title = game.title || ""; 
-    const matchesSearch = title.toLowerCase().includes(search.toLowerCase());
-    const matchesPrice = game.price_pln <= maxPrice; 
-    return matchesSearch && matchesPrice;
-  });
+  if (loading) return <div className="text-center p-10 text-white font-bold text-xl">Ładowanie gier z chmury...</div>;
 
   return (
     <main className="max-w-6xl mx-auto text-gray-800">
@@ -57,6 +62,7 @@ export default function Home() {
           filteredGames.map((game) => {
             const isSold = game.isSold === true;
             const isOwner = user && user.email === game.ownerEmail;
+            const isFav = favorites.some(fav => fav.id === game.id);
 
             return (
               <div 
@@ -90,6 +96,14 @@ export default function Home() {
                   
                   <div className="flex flex-col gap-2">
                     <div className="flex justify-between items-center">
+
+                      <button 
+                          onClick={() => toggleFavorite({ id: game.id, title: game.title })}
+                          className="text-2xl hover:scale-110 transition-transform"
+                      >
+                          {isFav ? '❤️' : '🤍'}
+                      </button>
+
                       <Link 
                         href={`/game/${game.id}`}
                         className="text-white bg-blue-600 px-4 py-2 rounded hover:bg-blue-700 transition-colors text-sm text-center flex-1 mr-2"
@@ -119,6 +133,9 @@ export default function Home() {
                           onClick={() => {
                             if(window.confirm("Czy na pewno chcesz usunąć tę grę z chmury?")) {
                               deleteGame(game.id);
+                              if (favorites.some(fav => fav.id === game.id)) {
+                                toggleFavorite({ id: game.id, title: game.title });
+                              }
                             }
                           }}
                           className="text-red-600 hover:underline text-sm font-semibold"

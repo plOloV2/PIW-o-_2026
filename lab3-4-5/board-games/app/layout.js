@@ -2,17 +2,22 @@
 
 import { GamesProvider } from "./GamesContext";
 import { AuthProvider, useAuth } from "./AuthContext";
+import { FavoritesProvider, useFavorites } from "./FavoritesContext";
 import "./globals.css";
 import Link from "next/link";
 
 const Navbar = () => {
   const { user, logout } = useAuth();
+  const { favorites } = useFavorites();
 
   return (
     <nav className="p-4 bg-gray-800 text-white flex justify-between items-center">
       <div className="flex gap-4">
         <Link href="/" className="hover:text-gray-300 font-bold">Strona Główna</Link>
         {user && <Link href="/add" className="hover:text-gray-300 font-bold">Dodaj Grę</Link>}
+        <Link href="/favorites" className="text-yellow-400 font-bold hover:underline">
+          Ulubione: {favorites.length} ❤️
+        </Link>
       </div>
       
       <div className="flex gap-4 items-center">
@@ -39,10 +44,14 @@ export default function RootLayout({ children }) {
       <body>
         <AuthProvider>
           <GamesProvider>
-            <Navbar />
-            <div className="p-4">
-              {children}
-            </div>
+            <FavoritesProvider>
+              
+              <Navbar />
+              <div className="p-4">
+                {children}
+              </div>
+
+            </FavoritesProvider>
           </GamesProvider>
         </AuthProvider>
       </body>
